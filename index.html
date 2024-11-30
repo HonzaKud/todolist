@@ -48,6 +48,15 @@
                     <label for="filter-date" class="form-label">Do data:</label>
                     <input type="date" id="filter-date" class="form-control">
                 </div>
+                <div>
+                    <label for="sort-options" class="form-label">Řadit podle:</label>
+                    <select id="sort-options" class="form-select">
+                        <option value="date-asc">Datum (Vzestupně)</option>
+                        <option value="date-desc">Datum (Sestupně)</option>
+                        <option value="status">Stav (Dokončené/Nedokončené)</option>
+                        <option value="category">Kategorie</option>
+                    </select>
+                </div>
             </div>
         </div>
         <ul id="todo-list" class="list-group mt-4"></ul>
