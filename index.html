@@ -4,36 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do Seznam</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div id="app">
-        <h1>To-Do Seznam</h1>
-        <form id="todo-form">
-            <input type="text" id="todo-input" placeholder="Zadejte úkol..." required>
-            <select id="todo-category">
-                <option value="Obecné">Obecné</option>
-                <option value="Práce">Práce</option>
-                <option value="Osobní">Osobní</option>
-                <option value="Domov">Domov</option>
-            </select>
-            <input type="date" id="todo-date" required>
-            <button type="submit">Přidat úkol</button>
-        </form>
-        <div id="filter">
-            <label for="filter-category">Filtrovat podle kategorií:</label>
-            <select id="filter-category">
-                <option value="Vše">Vše</option>
-                <option value="Obecné">Obecné</option>
-                <option value="Práce">Práce</option>
-                <option value="Osobní">Osobní</option>
-                <option value="Domov">Domov</option>
-            </select>
-            <label for="filter-date">Do data:</label>
-            <input type="date" id="filter-date">
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">To-Do Seznam</h1>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form id="todo-form" class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" id="todo-input" class="form-control" placeholder="Zadejte úkol..." required>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="todo-category" class="form-select">
+                            <option value="Obecné">Obecné</option>
+                            <option value="Práce">Práce</option>
+                            <option value="Osobní">Osobní</option>
+                            <option value="Domov">Domov</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" id="todo-date" class="form-control" required>
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn btn-primary">Přidat úkol</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <ul id="todo-list"></ul>
+        <div class="mt-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <label for="filter-category" class="form-label">Filtrovat podle kategorií:</label>
+                    <select id="filter-category" class="form-select">
+                        <option value="Vše">Vše</option>
+                        <option value="Obecné">Obecné</option>
+                        <option value="Práce">Práce</option>
+                        <option value="Osobní">Osobní</option>
+                        <option value="Domov">Domov</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="filter-date" class="form-label">Do data:</label>
+                    <input type="date" id="filter-date" class="form-control">
+                </div>
+            </div>
+        </div>
+        <ul id="todo-list" class="list-group mt-4"></ul>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
