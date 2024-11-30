@@ -21,14 +21,16 @@ body {
 
 form {
     display: flex;
+    flex-direction: column;
     gap: 10px;
+    margin-bottom: 20px; /* Added spacing below the form */
 }
 
-input {
-    flex: 1;
+input, select {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    flex: 1;
 }
 
 button {
@@ -38,10 +40,15 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    align-self: center; /* Center align the button */
 }
 
 button:hover {
     background: #0056b3;
+}
+
+#filter {
+    margin-bottom: 20px; /* Added spacing below the filter */
 }
 
 ul {
