@@ -3,65 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do Seznam</title>
+    <title>Správce úkolů</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-light">
     <div class="container mt-5">
-        <h1 class="text-center mb-4">To-Do Seznam</h1>
+        <h1 class="text-center mb-4 text-dark fw-bold">Správce úkolů</h1>
         <div class="card shadow-sm">
             <div class="card-body">
-                <form id="todo-form" class="row g-3">
-                    <div class="col-md-6">
+                <form id="todo-form" class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label for="todo-input" class="form-label">Úkol</label>
                         <input type="text" id="todo-input" class="form-control" placeholder="Zadejte úkol..." required>
                     </div>
                     <div class="col-md-3">
+                        <label for="todo-category" class="form-label">Kategorie</label>
                         <select id="todo-category" class="form-select">
-                            <option value="Obecné">Obecné</option>
-                            <option value="Práce">Práce</option>
-                            <option value="Osobní">Osobní</option>
-                            <option value="Domov">Domov</option>
+                            <option value="Obecné">🛠️ Obecné</option>
+                            <option value="Práce">💼 Práce</option>
+                            <option value="Osobní">🌟 Osobní</option>
+                            <option value="Domov">🏠 Domov</option>
                         </select>
                     </div>
                     <div class="col-md-3">
+                        <label for="todo-date" class="form-label">Datum</label>
                         <input type="date" id="todo-date" class="form-control" required>
                     </div>
-                    <div class="col-12 text-end">
-                        <button type="submit" class="btn btn-primary">Přidat úkol</button>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button type="submit" class="btn btn-primary w-100">Přidat</button>
                     </div>
                 </form>
             </div>
         </div>
         <div class="mt-4">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <label for="filter-category" class="form-label">Filtrovat podle kategorií:</label>
-                    <select id="filter-category" class="form-select">
-                        <option value="Vše">Vše</option>
-                        <option value="Obecné">Obecné</option>
-                        <option value="Práce">Práce</option>
-                        <option value="Osobní">Osobní</option>
-                        <option value="Domov">Domov</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="filter-date" class="form-label">Do data:</label>
-                    <input type="date" id="filter-date" class="form-control">
-                </div>
-                <div>
-                    <label for="sort-options" class="form-label">Řadit podle:</label>
-                    <select id="sort-options" class="form-select">
-                        <option value="date-asc">Datum (Vzestupně)</option>
-                        <option value="date-desc">Datum (Sestupně)</option>
-                        <option value="status">Stav (Dokončené/Nedokončené)</option>
-                        <option value="category">Kategorie</option>
-                    </select>
-                </div>
-            </div>
+            <h3 class="text-start">Nedokončené úkoly</h3>
+            <ul id="incomplete-tasks" class="list-group"></ul>
         </div>
-        <ul id="todo-list" class="list-group mt-4"></ul>
+        <div class="mt-4">
+            <h3 class="text-start">Dokončené úkoly</h3>
+            <ul id="completed-tasks" class="list-group"></ul>
+        </div>
     </div>
+
+    <footer class="footer mt-5">
+        <div class="container text-center">
+            <p>© 2024 Správce úkolů. Všechna práva vyhrazena.</p>
+            <p>Vytvořeno s ❤️ ve Vlašimi.</p>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
