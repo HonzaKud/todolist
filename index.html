@@ -10,6 +10,7 @@
 <body class="bg-light">
     <div class="container mt-5">
         <h1 class="text-center mb-4 text-dark fw-bold">Správce úkolů</h1>
+        <p class="text-center text-muted">Verze aplikace: 1.0</p> <!-- Přidáno -->
         <div class="card shadow-sm">
             <div class="card-body">
                 <form id="todo-form" class="row g-3 align-items-end">
@@ -37,6 +38,18 @@
                 </form>
             </div>
         </div>
+
+        <div class="filter-section mb-3">
+            <label for="filter-category" class="form-label">Filtrovat podle kategorie:</label>
+            <select id="filter-category" class="form-select">
+                <option value="Vše">Vše</option>
+                <option value="Obecné">Obecné</option>
+                <option value="Práce">Práce</option>
+                <option value="Osobní">Osobní</option>
+                <option value="Domov">Domov</option>
+            </select>
+        </div>
+
         <div class="mt-4">
             <h3 class="text-start">Nedokončené úkoly</h3>
             <ul id="incomplete-tasks" class="list-group"></ul>

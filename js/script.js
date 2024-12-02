@@ -37,6 +37,42 @@ document.addEventListener("DOMContentLoaded", () => {
         todoDate.value = "";
     }
 
+
+    const filterCategory = document.getElementById("filter-category");
+
+// Událost pro změnu filtru
+filterCategory.addEventListener("change", () => {
+    const selectedCategory = filterCategory.value;
+    filterTasks(selectedCategory);
+});
+
+function filterTasks(category) {
+    const allTasks = document.querySelectorAll(".list-group-item");
+    console.log("Počet nalezených úkolů:", allTasks.length);
+
+    allTasks.forEach(task => {
+        const taskCategoryElement = task.querySelector(".text-muted.d-block");
+        if (taskCategoryElement) {
+            const taskCategory = taskCategoryElement.innerText.split(": ")[1];
+            console.log("Úkol:", task.innerText.trim(), "Kategorie:", taskCategory);
+
+            // Zobraz nebo skryj úkol podle filtru
+            if (category === "Vše" || taskCategory === category) {
+                task.style.display = ""; // Zobrazit úkol
+                console.log("Zobrazeno úkol:", task.innerText.trim());
+            } else {
+                task.style.display = "none"; // Skrytí úkolu
+                console.log("Skryto úkol:", task.innerText.trim());
+            }
+        } else {
+            console.log("Kategorie nebyla nalezena u úkolu:", task.innerText.trim());
+        }
+    });
+}
+
+
+
+
     // Funkce pro vykreslení úkolu
     function renderTask(task, listElement) {
         const li = document.createElement("li");
@@ -53,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <button class="btn btn-danger btn-sm delete-task">✖</button>
             </div>
         `;
+        
 
         li.querySelector(".mark-complete").addEventListener("click", () => toggleTaskCompletion(li, task));
         li.querySelector(".delete-task").addEventListener("click", () => deleteTask(li, task));

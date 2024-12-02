@@ -67,3 +67,27 @@ h1 {
     font-weight: bold;
     color: #212529;
 }
+
+.filter-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 15px; /* Přidá prostor nad filtrem */
+}
+
+.filter-section .form-label {
+    font-weight: bold;
+}
+
+.filter-section .form-select {
+    max-width: 300px;
+}
+
+/* Zajisti, že úkoly budou skryty při nastavení display: none */
+.list-group-item {
+    display: block !important; /* Standardní zobrazení úkolů */
+}
+
+.list-group-item[style*="display: none"] {
+    display: none !important; /* Skrytí úkolů při filtrování */
+}
