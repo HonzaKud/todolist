@@ -6,36 +6,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const incompleteTasks = document.getElementById("incomplete-tasks");
     const completedTasks = document.getElementById("completed-tasks");
 
-    // Funkce pro přidání úkolu
-    function addTask(event) {
+    async function addTask(event) {
         event.preventDefault(); // Zabraň odeslání formuláře
-
+    
         const taskText = todoInput.value.trim();
         const taskCategory = todoCategory.value;
         const taskDate = todoDate.value;
-
+    
         if (!taskText || !taskDate) {
             alert("Prosím, vyplňte všechny údaje.");
             return;
         }
-
-        const task = {
+    
+        const newTask = {
             text: taskText,
             category: taskCategory,
             date: taskDate,
             completed: false
         };
-
-        // Přidání úkolu do DOM
-        renderTask(task, incompleteTasks);
-
-        // Uložení úkolu do LocalStorage
-        saveTaskToLocalStorage(task);
-
-        // Vymazání formuláře
-        todoInput.value = "";
-        todoDate.value = "";
+    
+        try {
+            // Volání backendu pro uložení úkolu
+            const response = await fetch("http://localhost:5000/api/tasks", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newTask),
+            });
+    
+            const savedTask = await response.json();
+    
+            // Přidání úkolu do DOM
+            renderTask(savedTask, incompleteTasks);
+    
+            // Vymazání formuláře
+            todoInput.value = "";
+            todoDate.value = "";
+        } catch (err) {
+            console.error("Chyba při ukládání úkolu:", err.message);
+            alert("Nepodařilo se uložit úkol. Zkuste to znovu.");
+        }
     }
+    
 
 
     const filterCategory = document.getElementById("filter-category");
@@ -104,35 +115,69 @@ function filterTasks(category) {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
-    // Funkce pro načtení úkolů z LocalStorage
-    function loadTasksFromLocalStorage() {
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        tasks.forEach(task => {
-            if (task.completed) {
-                renderTask(task, completedTasks);
-            } else {
-                renderTask(task, incompleteTasks);
-            }
-        });
-    }
-
-    // Funkce pro označení úkolu jako dokončený/nedokončený
-    function toggleTaskCompletion(taskElement, task) {
-        task.completed = !task.completed;
-        updateTaskInLocalStorage(task);
-        taskElement.remove();
-        if (task.completed) {
-            renderTask(task, completedTasks);
-        } else {
-            renderTask(task, incompleteTasks);
+    async function loadTasksFromBackend() {
+        try {
+            const response = await fetch("http://localhost:5000/api/tasks"); // Volání API
+            const tasks = await response.json(); // Získání dat z odpovědi
+    
+            tasks.forEach(task => {
+                if (task.completed) {
+                    renderTask(task, completedTasks); // Vykresli dokončené úkoly
+                } else {
+                    renderTask(task, incompleteTasks); // Vykresli nedokončené úkoly
+                }
+            });
+        } catch (err) {
+            console.error("Chyba při načítání úkolů z backendu:", err.message);
         }
     }
+    
 
-    // Funkce pro smazání úkolu
-    function deleteTask(taskElement, task) {
-        taskElement.remove();
-        removeTaskFromLocalStorage(task);
+    async function toggleTaskCompletion(taskElement, task) {
+        task.completed = !task.completed; // Přepni stav úkolu
+    
+        try {
+            const response = await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ completed: task.completed }),
+            });
+    
+            if (response.ok) {
+                taskElement.remove(); // Odstraň úkol z DOM
+                if (task.completed) {
+                    renderTask(task, completedTasks); // Vykresli v dokončených
+                } else {
+                    renderTask(task, incompleteTasks); // Vykresli v nedokončených
+                }
+            } else {
+                console.error("Chyba při aktualizaci úkolu:", await response.text());
+                alert("Nepodařilo se aktualizovat stav úkolu. Zkuste to znovu.");
+            }
+        } catch (err) {
+            console.error("Chyba při aktualizaci úkolu:", err.message);
+            alert("Nepodařilo se aktualizovat stav úkolu. Zkuste to znovu.");
+        }
     }
+    
+
+    async function deleteTask(taskElement, task) {
+        try {
+            const response = await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
+                method: "DELETE",
+            });
+    
+            if (response.ok) {
+                taskElement.remove(); // Odstraň úkol z DOM
+            } else {
+                console.error("Chyba při mazání úkolu:", await response.text());
+                alert("Nepodařilo se smazat úkol. Zkuste to znovu.");
+            }
+        } catch (err) {
+            console.error("Chyba při mazání úkolu:", err.message);
+            alert("Nepodařilo se smazat úkol. Zkuste to znovu.");
+        }
+    }    
 
     // Funkce pro aktualizaci úkolu v LocalStorage
     function updateTaskInLocalStorage(task) {
@@ -149,7 +194,7 @@ function filterTasks(category) {
     }
 
     // Načtení úkolů při načtení stránky
-    loadTasksFromLocalStorage();
+    loadTasksFromBackend();
 
     // Událost pro odeslání formuláře
     todoForm.addEventListener("submit", addTask);
