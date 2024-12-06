@@ -16,6 +16,12 @@ app.use(cors({
 }));
 
 
+app.use((req, res, next) => {
+    console.log("CORS Middleware - origin:", req.headers.origin); //v
+    next();
+});
+
+app.use(express.json()); // Přidání middleware pro zpracování JSON dat
 
 // Testovací route
 app.get("/", (req, res) => {
