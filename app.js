@@ -15,6 +15,8 @@ app.use(cors({
     credentials: true // Pokud je potřeba předávat cookies nebo ověřování
 }));
 
+
+
 // Testovací route
 app.get("/", (req, res) => {
     res.send("Aplikace je připojena k databázi!");
