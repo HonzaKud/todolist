@@ -9,8 +9,11 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors()); // Povolení CORS pro všechny domény
-app.use(express.json());
+app.use(cors({
+    origin: "https://honzakud.github.io", // Povolený origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Povolené metody
+    credentials: true // Pokud je potřeba předávat cookies nebo ověřování
+}));
 
 // Testovací route
 app.get("/", (req, res) => {
