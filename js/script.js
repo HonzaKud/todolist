@@ -27,11 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
     
         try {
             // Volání backendu pro uložení úkolu
-            const response = await fetch("http://localhost:5000/api/tasks", {
+            const response = await fetch("https://todolist-x2d9.onrender.com/api/tasks", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newTask),
             });
+            
     
             const savedTask = await response.json();
     
@@ -108,16 +109,9 @@ function filterTasks(category) {
         listElement.appendChild(li);
     }
 
-    // Funkce pro uložení úkolu do LocalStorage
-    function saveTaskToLocalStorage(task) {
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        tasks.push(task);
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-
     async function loadTasksFromBackend() {
         try {
-            const response = await fetch("http://localhost:5000/api/tasks"); // Volání API
+            const response = await fetch("https://todolist-x2d9.onrender.com/api/tasks"); // Volání API
             const tasks = await response.json(); // Získání dat z odpovědi
     
             tasks.forEach(task => {
@@ -137,7 +131,7 @@ function filterTasks(category) {
         task.completed = !task.completed; // Přepni stav úkolu
     
         try {
-            const response = await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
+            const response = await fetch(`https://todolist-x2d9.onrender.com/api/tasks/${task._id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ completed: task.completed }),
@@ -160,10 +154,11 @@ function filterTasks(category) {
         }
     }
     
+    
 
     async function deleteTask(taskElement, task) {
         try {
-            const response = await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
+            const response = await fetch(`https://todolist-x2d9.onrender.com/api/tasks/${task._id}`, {
                 method: "DELETE",
             });
     
@@ -177,21 +172,8 @@ function filterTasks(category) {
             console.error("Chyba při mazání úkolu:", err.message);
             alert("Nepodařilo se smazat úkol. Zkuste to znovu.");
         }
-    }    
-
-    // Funkce pro aktualizaci úkolu v LocalStorage
-    function updateTaskInLocalStorage(task) {
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        const updatedTasks = tasks.map(t => (t.text === task.text && t.date === task.date ? task : t));
-        localStorage.setItem("tasks", JSON.stringify(updatedTasks));
     }
-
-    // Funkce pro smazání úkolu z LocalStorage
-    function removeTaskFromLocalStorage(task) {
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        const updatedTasks = tasks.filter(t => !(t.text === task.text && t.date === task.date));
-        localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-    }
+       
 
     // Načtení úkolů při načtení stránky
     loadTasksFromBackend();
