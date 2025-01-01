@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
+require("dotenv").config(); // Načtení proměnných z .env souboru
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(
-            "mongodb+srv://jankudrnatt:Eurotel1477@cluster0.4lnoi.mongodb.net/todolist?retryWrites=true&w=majority", 
-            {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-            }
-        );
+        await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
         console.log("MongoDB připojeno!");
     } catch (err) {
         console.error("Chyba při připojení k MongoDB:", err.message);
