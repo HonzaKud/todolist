@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import connectDB from "./config/db.js";
 import taskRoutes from "./routes/taskRoutes.js";
 
@@ -16,17 +18,28 @@ const startServer = async () => {
         // ✅ Vytvoření Express aplikace
         const app = express();
 
+        // 📍 Získání __dirname pro práci s cestami
+        const __filename = fileURLToPath(import.meta.url);
+        const __dirname = path.dirname(__filename);
+
+        // 📂 Nastavení složky public jako statické
+        app.use(express.static(path.join(__dirname, "public")));
+
         // ✅ Middleware
-        app.use(cors({ origin: "https://honzakud.github.io", methods: ["GET", "POST", "PUT", "DELETE"], credentials: true }));
+        app.use(cors({ 
+            origin: "https://honzakud.github.io", 
+            methods: ["GET", "POST", "PUT", "DELETE"], 
+            credentials: true 
+        }));
         app.use(express.json());
 
-        // ✅ Základní testovací route
-        app.get("/", (req, res) => {
-            res.send("✅ API běží a je připojeno k databázi!");
-        });
-
-        // ✅ Použití rout
+        // ✅ Použití API rout
         app.use("/api/tasks", taskRoutes);
+
+        // 🏠 Odpověď na hlavní GET požadavek – vrátí index.html
+        app.get("/", (req, res) => {
+            res.sendFile(path.join(__dirname, "public", "index.html"));
+        });
 
         // ✅ Middleware pro neexistující routy (404)
         app.use((req, res) => {
