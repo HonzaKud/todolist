@@ -5,7 +5,7 @@ require("dotenv").config(); // Nacteni knihovny dovenv, ktera umoznuje cist prom
 //Overeni, ze existuje MONGO_URI v souboru .env
 if (!process.env.MONGO_URI) {
     console.error("Chyba: Chybi MONGO_URI v .env souboru!"); //Chybova zprava, pokud promenna neni nastavena
-process.exit(1); //Ukonceni aplikace s chybivym kodem 1 (coz znamena chyba)
+    process.exit(1); //Ukonceni aplikace s chybivym kodem 1 (coz znamena chyba)
     
 }
 

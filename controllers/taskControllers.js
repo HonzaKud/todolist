@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Task from "../models/Task.js";
 
 // ✅ Získání všech úkolů
@@ -46,6 +47,10 @@ export const updateTask = async (req, res) => {
         const { id } = req.params;
         const { completed } = req.body;
 
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ message: "Neplatné ID úkolu." });
+        }
+
         // 🔍 Ověření, že completed je boolean
         if (typeof completed !== "boolean") {
             return res.status(400).json({ message: "Pole 'completed' musí být boolean (true/false)." });
@@ -68,6 +73,10 @@ export const updateTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
     try {
         const { id } = req.params;
+
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({ message: "Neplatné ID úkolu." });
+        }
 
         const task = await Task.findByIdAndDelete(id);
         if (!task) {
