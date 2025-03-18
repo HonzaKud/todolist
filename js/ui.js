@@ -2,6 +2,9 @@
 
 import { updateTask, deleteTaskFromDB } from "./api.js";
 
+const completedTasks = document.getElementById("completed-tasks");
+const incompleteTasks = document.getElementById("incomplete-tasks");
+
 // ✅ Funkce pro vykreslení úkolu v seznamu
 function renderTask(task, listElement) {
     const li = document.createElement("li"); // Vytvoření <li> elementu
