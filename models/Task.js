@@ -1,4 +1,4 @@
-const mongoose = require("mongoose"); // Nacteni knihovny Mongoose pro praci s MongoDB
+import mongoose from "mongoose"; 
 
 const TaskSchema = new mongoose.Schema({ // Definice schematu pro ukoly (Tasks)
     text: { 
@@ -17,7 +17,13 @@ const TaskSchema = new mongoose.Schema({ // Definice schematu pro ukoly (Tasks)
     },
     date: { 
         type: Date, 
-        required: true 
+        required: true,
+        validate: {
+            validator: function(value) {
+                return !isNaN(Date.parse(value)); // Ověří, zda je datum platné
+            },
+            message: "Neplatný formát data."
+        }
     },
     completed: { 
         type: Boolean, 
@@ -25,4 +31,4 @@ const TaskSchema = new mongoose.Schema({ // Definice schematu pro ukoly (Tasks)
     },
 }, {timestamps: true}); // Automacky prida createAt a updateAt pole
 
-module.exports = mongoose.model("Task", TaskSchema); // Export modelu Task, MongoDB vytvori kolekci tasks
+export default mongoose.model("Task", TaskSchema);
