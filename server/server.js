@@ -38,8 +38,8 @@ const startServer = async () => {
 
         // 🏠 Odpověď na hlavní GET požadavek – vrátí index.html
         app.get("/", (req, res) => {
-            res.sendFile(path.join(__dirname, "public", "index.html"));
-        });
+            res.sendFile(path.join(__dirname, "index.html"));
+        });   
 
         // ✅ Middleware pro neexistující routy (404)
         app.use((req, res) => {
